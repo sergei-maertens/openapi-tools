@@ -1,3 +1,3 @@
-from .compare import compare
+from .comparison import compare
 
 __all__ = ["compare"]
