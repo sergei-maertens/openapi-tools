@@ -21,15 +21,24 @@ class OperationIDsComparator(BaseComparator):
     target_type = Specification
 
     @staticmethod
-    def _get_spec_operations(spec: Specification) -> dict[str, Operation]:
+    def _get_operation_id(url: str, operation: Operation) -> str:
+        if operation.operation_id:
+            return operation.operation_id
+        # skip the leading slash, which is REQUIRED by the API spec
+        bits = ["_openapi_tools_generated"] + url[1:].split("/") + [operation.method.value]
+        return "_".join(bits)
+
+    @classmethod
+    def _get_spec_operations(cls, spec: Specification) -> dict[str, Operation]:
         # https://swagger.io/specification/#operation-object
         #
         # Unique string used to identify the operation. The id MUST be unique among all
         # operations described in the API. The operationId value is case-sensitive.
         #
-        # -> we can use the operation ID as key (and it is a required/fixed field).
+        # -> we can use the operation ID as key. if it's not provided (since it's an
+        # optional field), we generate an ID from the path + method combination
         operations = {
-            str(operation.operation_id): operation
+            cls._get_operation_id(path.url, operation): operation
             for path in spec.paths
             for operation in path.operations
         }
@@ -62,6 +71,7 @@ class OperationIDsComparator(BaseComparator):
                 )
 
         # run comparison for nested operations
-        # TODO: take path parameters into account
+        # TODO: take path parameters into account, as openapi-parser DOES not do this
+        # Possibly override via builder?
 
         return problems

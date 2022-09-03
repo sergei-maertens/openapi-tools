@@ -1,0 +1,28 @@
+openapi: 3.0.3
+info:
+  title: Test schema for parser
+  description: Testing
+  version: 1.0.0
+paths:
+  /api:
+    get:
+      parameters:
+        - name: nestedParam
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+    parameters:
+      - name: pathParam
+        in: query
+        required: false
+        schema:
+          type: string

@@ -2,7 +2,7 @@
 import openapi_tools
 
 OZ_SPEC = "assets/oz-zaken.yaml"
-VNG_SPEC = "assets/vng-documenten.yaml"
+VNG_SPEC = "assets/vng-zaken.yaml"
 
 
 def main():
