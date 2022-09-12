@@ -6,6 +6,17 @@ from .registry import BaseComparator, register
 from .reports import ProblemReport
 
 
+@register
+class VersionComparator(BaseComparator):
+    target_type = Specification
+
+    @staticmethod
+    def compare(spec1: Specification, spec2: Specification) -> list[ProblemReport]:
+        if (version1 := spec1.info.version) == (version2 := spec2.info.version):
+            return []
+        return [ProblemReport(message=f"Version '{version1}' is different from '{version2}'")]
+
+
 @dataclass
 class OperationIDsProblem(ProblemReport):
     operation_ids: list[str]
@@ -16,7 +27,7 @@ class OperationIDsProblem(ProblemReport):
         return f"{self.message}\n{op_id_list}"
 
 
-@register
+# @register
 class OperationIDsComparator(BaseComparator):
     target_type = Specification
 
@@ -46,6 +57,10 @@ class OperationIDsComparator(BaseComparator):
 
     @classmethod
     def compare(cls, spec1: Specification, spec2: Specification) -> list[ProblemReport]:
+        import bpdb; bpdb.set_trace()
+
+
+
         spec1_operations = cls._get_spec_operations(spec1)
         spec2_operations = cls._get_spec_operations(spec2)
 
