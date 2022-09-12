@@ -1,5 +1,7 @@
 """
 Compare OpenAPI specs for equivalency.
+
+TODO: rename to "equivalency"?
 """
 from ..parser import parse
 from . import comparators  # NOQA - registering the comparators
