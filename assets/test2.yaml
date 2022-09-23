@@ -26,3 +26,8 @@ paths:
         required: false
         schema:
           type: string
+  /prefixed/additional:
+    get:
+      responses:
+        '200':
+          description: 'OK'
